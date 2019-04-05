@@ -363,7 +363,7 @@ usage() {
     echo " -d Todo.txt config file"
 }
 
-while getopts "h?f:F:d:t:" opt; do
+while getopts "h?f:F:c:d:" opt; do
     case "$opt" in
     h|\?)
         usage
