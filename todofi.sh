@@ -83,7 +83,6 @@ filter_by_priority() {
 confirm() {
     action=$1
     context=$2
-    #message="${1:-"Confirm ?"}"
     message="Confirm $action ?"
 
     # Todo: remove duplicate code...
@@ -102,7 +101,6 @@ confirm() {
 }
 
 getprojconheader() {
-    #listprojcon=`(runtodo listproj; runtodo listcon) | tr '\n' ' '`
     listproj=`runtodo listproj | tr '\n' ' '`
     listcon=`runtodo listcon | tr '\n' ' '`
     echo "Projects: <span color=\"${COLOR_TAG}\">${listproj}</span>
@@ -167,7 +165,7 @@ option() {
         else
             selection=$(echo -e "1. Mark Done|2. Edit|3. Edit priority|4. Remove priority|5. Delete" | runrofi -lines 5 -sep "|" -u 4 -a 0 -kb-accept-entry "Return" -mesg "Item: <span foreground=\"#0000FF\">${current_line}</span>" -dmenu -p "Action")
             lineno=`getlinenumber "$current_line"`
-            echo "current_line:$current_line, sel:$selection, lineno:$lineno"
+
             case "${selection:0:1}" in
               "1")
                 confirm "mark as done" "$current_line" && runtodo do $lineno && break;;
@@ -210,9 +208,7 @@ listprojectandcontext() {
     HEADER="Select a project (+) or context (@) that will serve as a persistent filter"
 
     listproj=`runtodo listproj`
-    #listprojno=`runtodo listproj | sed 's/.*/-&/'`
     listcon=`runtodo listcon`
-    #listconno=`runtodo listcon | sed 's/.*/-&/'`
     selection=$(echo -e "All\n""${listproj}\n${listcon}\n${listprojno}\n${listconno}" | runrofi -kb-accept-entry "Return" -mesg "${HEADER}" -dmenu -p "Action")
 
     if [[ $selection == 'All' ]]; then
@@ -320,11 +316,6 @@ main() {
                                         -u "${high}" -a "${medium}" -mesg "${HEADER}" -dmenu -p "Filter")
         val=$?
         lineno=`getlinenumber "$selection"`
-
-        echo -e "${list}" | formatline
-        echo '--'
-        #echo $selection
-        #list
 
         if [[ $val -eq 0 ]]; then
             if [[ $lineno ]]; then
