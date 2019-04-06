@@ -2,7 +2,7 @@
 
 Todo-txt + Rofi = Todofi.sh
 
-Handle your todo-txt tasks directly from Rofi
+Handle your [todo-txt](http://todotxt.org/) tasks directly from [Rofi](https://github.com/DaveDavenport/rofi)
 
 ## Features
 
@@ -19,10 +19,18 @@ Handle your todo-txt tasks directly from Rofi
 * rofi
 * todo-txt
 
+#### On Debian based system
+
 ```bash
 sudo apt install rofi todo-txt
 ```
 
 ## Installation
 
-Just run ./todofi.sh
+Copy todofi.sh where you want.
+
+## Use it
+
+Just run `/your/path/todofi.sh`
+
+Try `todofi.sh --help` if you want to customize.
