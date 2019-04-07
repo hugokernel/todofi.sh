@@ -35,4 +35,6 @@ Copy todofi.sh where you want.
 
 Just run `/your/path/todofi.sh`
 
+With i3wm, you can bind todofi.sh like this `bindsym $mod+t exec /path/to/todofi.sh`
+
 Try `todofi.sh --help` if you want to customize.
