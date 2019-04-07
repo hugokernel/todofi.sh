@@ -4,6 +4,8 @@ Todo-txt + Rofi = Todofi.sh
 
 Handle your [todo-txt](http://todotxt.org/) tasks directly from [Rofi](https://github.com/DaveDavenport/rofi)
 
+![Todofi.sh screenshot](screenshot.png)
+
 ## Features
 
 * Mark as done
