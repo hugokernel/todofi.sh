@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-TODOTXT_CFG_FILE="${HOME}/.config/todo-txt.cfg"
+TODOTXT_CFG_FILE="${HOME}/.config/todo/config"
 
 CONFIG_FILE="${HOME}/.config/todofish.conf"
 FILTER_FILE="`dirname ${CONFIG_FILE}`/todofish_filter.sh"
