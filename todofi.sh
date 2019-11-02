@@ -33,7 +33,7 @@ SHORTCUT_HELP="Alt+h"
 EDITOR='gedit'
 
 ROFI_BIN="$(whereis -b rofi | awk '{print $2}')"
-TODO_BIN="$(whereis -b todo-txt | awk '{print $2}')"
+TODO_BIN="$(whereis -b todo.sh | awk '{print $2}')"
 
 if [[ -z "$ROFI_BIN" ]]; then
     echo "Missing rofi, please install it !"
@@ -50,7 +50,7 @@ runrofi () {
 }
 
 runtodo_verbose() {
-    todo-txt -p -d "$TODOTXT_CFG_FILE" "$@"
+    $TODO_BIN -p -d "$TODOTXT_CFG_FILE" "$@"
 }
 
 runtodo() {
