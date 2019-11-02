@@ -40,7 +40,7 @@ if [[ -z "$ROFI_BIN" ]]; then
     exit 1
 fi
 
-if [[ -z "$ROFI_BIN" ]]; then
+if [[ -z "$TODO_BIN" ]]; then
     echo "Missing todo-txt, please install it !"
     exit 1
 fi
