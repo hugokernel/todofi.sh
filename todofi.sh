@@ -280,7 +280,11 @@ Todo.txt format: https://github.com/todotxt/todo.txt"
 }
 
 main() {
-    loadfilter
+    if [[ $FILTER_ARG ]]; then
+        FILTER=$FILTER_ARG
+    else
+        loadfilter
+    fi
 
     while true
     do
@@ -369,7 +373,7 @@ while getopts "h?f:F:c:d:" opt; do
         usage
         exit 0;;
     f)
-        FILTER=$OPTARG;;
+        FILTER_ARG=$OPTARG;;
     F)
         FILTER_FILE=$OPTARG;;
     c)
