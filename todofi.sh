@@ -367,6 +367,10 @@ usage() {
     echo " -d Todo.txt config file"
 }
 
+if [[ -e $CONFIG_FILE ]]; then
+    source $CONFIG_FILE
+fi
+
 while getopts "h?f:F:c:d:" opt; do
     case "$opt" in
     h|\?)
