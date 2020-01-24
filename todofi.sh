@@ -12,7 +12,7 @@ KIND=""
 # and by following the constraints LINES_MIN and LINES_MAX
 LINES_MODE="auto"
 LINES_MIN=1
-LINES_MAX=15
+LINES_MAX=30
 
 COLOR_TITLE="#00CC00"
 COLOR_SHORTCUT="#0000CC"
@@ -371,11 +371,13 @@ if [[ -e $CONFIG_FILE ]]; then
     source $CONFIG_FILE
 fi
 
-while getopts "h?f:F:c:d:" opt; do
+while getopts "h?nf:F:c:d:" opt; do
     case "$opt" in
     h|\?)
         usage
         exit 0;;
+    n)
+        ADD_MODE=true;;
     f)
         FILTER_ARG=$OPTARG;;
     F)
@@ -388,5 +390,9 @@ while getopts "h?f:F:c:d:" opt; do
     esac
 done
 
-main
+if [ $ADD_MODE ]; then
+    add
+else
+    main
+fi
 
