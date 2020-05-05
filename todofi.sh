@@ -21,13 +21,13 @@ COLOR_ITEM="#0000CC"
 COLOR_INFO="#FF0000"
 COLOR_EXAMPLE="#0000CC"
 
-SHORTCUT_NEW="Alt+n"
+SHORTCUT_NEW="Alt+a"
 SHORTCUT_DONE="Alt+d"
 SHORTCUT_EDIT="Alt+e"
 SHORTCUT_SWITCH="Alt+Tab"
 SHORTCUT_TERM="Alt+t"
 SHORTCUT_FILTERS="Alt+p"
-SHORTCUT_CLEAR="Alt+a"
+SHORTCUT_CLEAR="Alt+c"
 SHORTCUT_HELP="Alt+h"
 
 EDITOR='gedit'
@@ -242,7 +242,7 @@ TODOFISH_HEADER="<span color=\"${COLOR_TITLE}\">Todofi.sh</span>"
 help() {
     HELP="${TODOFISH_HEADER} - Charles Rincheval, May 2020
 --
-* Create todo <span color='${COLOR_SHORTCUT}'>${SHORTCUT_NEW}</span>
+* Add todo <span color='${COLOR_SHORTCUT}'>${SHORTCUT_NEW}</span>
 * Mark as done <span color='${COLOR_SHORTCUT}'>${SHORTCUT_DONE}</span>
 * Edit <span color='${COLOR_SHORTCUT}'>${SHORTCUT_EDIT}</span>
 * Switch Active / Done <span color='${COLOR_SHORTCUT}'>${SHORTCUT_SWITCH}</span>
@@ -369,7 +369,7 @@ Todo-txt + Rofi = Todofi.sh
 Handle your todo-txt tasks directly from Rofi
 
 OPTIONS:
- -n             Open in add mode
+ -a             Open in add mode
  -f filter      Filter applied on tasks
  -F filename    Filter file (read and write filter on this file)
  -c filename    Config file
@@ -381,12 +381,12 @@ if [[ -e $CONFIG_FILE ]]; then
     source $CONFIG_FILE
 fi
 
-while getopts "h?nf:F:c:d:" opt; do
+while getopts "h?af:F:c:d:" opt; do
     case "$opt" in
     h|\?)
         usage
         exit 0;;
-    n)
+    a)
         ADD_MODE=true;;
     f)
         FILTER_ARG=$OPTARG;;
