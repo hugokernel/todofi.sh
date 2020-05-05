@@ -33,7 +33,7 @@ SHORTCUT_HELP="Alt+h"
 EDITOR='gedit'
 
 ROFI_BIN="$(command -v rofi)"
-TODO_BIN="$(command -v todo-txt)"
+TODO_BIN=$(command -v todo-txt || command -v todo.sh)
 
 readonly PROGNAME=$(basename $0)
 
