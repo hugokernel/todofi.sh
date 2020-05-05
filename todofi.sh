@@ -371,11 +371,13 @@ if [[ -e $CONFIG_FILE ]]; then
     source $CONFIG_FILE
 fi
 
-while getopts "h?f:F:c:d:" opt; do
+while getopts "h?nf:F:c:d:" opt; do
     case "$opt" in
     h|\?)
         usage
         exit 0;;
+    n)
+        ADD_MODE=true;;
     f)
         FILTER_ARG=$OPTARG;;
     F)
@@ -388,5 +390,9 @@ while getopts "h?f:F:c:d:" opt; do
     esac
 done
 
-main
+if [ $ADD_MODE ]; then
+    add
+else
+    main
+fi
 
