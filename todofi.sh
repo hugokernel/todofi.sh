@@ -141,7 +141,7 @@ edit() {
     projcon=`getprojconheader`
     todo=$(runrofi -lines 0 -dmenu -mesg "Edit todo
 ${projcon}" -p "> " -filter "$current_line")
-    if [ -n "$todo" ]; then
+    if [[ -n "$todo" ]]; then
         runtodo replace "$lineno" "$todo"
     fi
 }
@@ -400,7 +400,7 @@ while getopts "h?af:F:c:d:" opt; do
     esac
 done
 
-if [ $ADD_MODE ]; then
+if [[ $ADD_MODE ]]; then
     add
 else
     main
