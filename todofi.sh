@@ -35,6 +35,8 @@ EDITOR='gedit'
 ROFI_BIN="$(whereis -b rofi | awk '{print $2}')"
 TODO_BIN="$(whereis -b todo-txt | awk '{print $2}')"
 
+readonly PROGNAME=$(basename $0)
+
 if [[ -z "$ROFI_BIN" ]]; then
     echo "Missing rofi, please install it !"
     exit 1
@@ -238,7 +240,7 @@ linescount() {
 TODOFISH_HEADER="<span color=\"${COLOR_TITLE}\">Todofi.sh</span>"
 
 help() {
-    HELP="${TODOFISH_HEADER} - Charles Rincheval, March 2019
+    HELP="${TODOFISH_HEADER} - Charles Rincheval, May 2020
 --
 * Create todo <span color='${COLOR_SHORTCUT}'>${SHORTCUT_NEW}</span>
 * Mark as done <span color='${COLOR_SHORTCUT}'>${SHORTCUT_DONE}</span>
@@ -360,11 +362,19 @@ main() {
 }
 
 usage() {
-    echo "Todofi.sh"
-    echo " -f Filter applied on tasks"
-    echo " -F Filter file (read and write filter on this file)"
-    echo " -c Config file"
-    echo " -d Todo.txt config file"
+    cat <<- EOF
+usage: $PROGNAME options
+
+Todo-txt + Rofi = Todofi.sh
+Handle your todo-txt tasks directly from Rofi
+
+OPTIONS:
+ -n             Open in add mode
+ -f filter      Filter applied on tasks
+ -F filename    Filter file (read and write filter on this file)
+ -c filename    Config file
+ -d filename    Todo.txt config file
+EOF
 }
 
 if [[ -e $CONFIG_FILE ]]; then
@@ -395,4 +405,3 @@ if [ $ADD_MODE ]; then
 else
     main
 fi
-
