@@ -32,8 +32,8 @@ SHORTCUT_HELP="Alt+h"
 
 EDITOR='gedit'
 
-ROFI_BIN="$(whereis -b rofi | awk '{print $2}')"
-TODO_BIN="$(whereis -b todo-txt | awk '{print $2}')"
+ROFI_BIN="$(command -v rofi)"
+TODO_BIN="$(command -v todo-txt)"
 
 readonly PROGNAME=$(basename $0)
 
