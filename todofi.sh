@@ -400,7 +400,7 @@ while getopts "h?af:F:c:d:" opt; do
     esac
 done
 
-if [ $ADD_MODE ]; then
+if [[ $ADD_MODE ]]; then
     add
 else
     main
