@@ -24,7 +24,7 @@ Handle your [todo-txt](http://todotxt.org/) tasks directly from [Rofi](https://g
 #### On Debian based system
 
 ```bash
-sudo apt install rofi todo-txt
+sudo apt install rofi todotxt-cli
 ```
 
 ## Installation
