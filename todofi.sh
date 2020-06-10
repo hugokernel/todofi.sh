@@ -33,7 +33,7 @@ SHORTCUT_HELP="Alt+h"
 EDITOR='gedit'
 
 ROFI_BIN="$(command -v rofi)"
-TODO_BIN=$(command -v todo-txt || command -v todo.sh)
+TODO_BIN=$(command -v todo-txt 2>/dev/null || command -v todo.sh 2>/dev/null)
 
 readonly PROGNAME=$(basename $0)
 
@@ -52,7 +52,7 @@ runrofi () {
 }
 
 runtodo_verbose() {
-    todo-txt -p -d "$TODOTXT_CFG_FILE" "$@"
+    $TODO_BIN -p -d "$TODOTXT_CFG_FILE" "$@"
 }
 
 runtodo() {
