@@ -239,6 +239,31 @@ linescount() {
 
 TODOFISH_HEADER="<span color=\"${COLOR_TITLE}\">Todofi.sh</span>"
 
+config() {
+    HELP="${TODOFISH_HEADER} - Configuration files"
+
+    source $TODOTXT_CFG_FILE
+
+    selection=$(
+        echo -e "1. Open todo.txt config file (${TODOTXT_CFG_FILE})|2. Open todofish config file (${CONFIG_FILE})|3. Open current filter file (${FILTER_FILE})" | \
+        runrofi -sep "|" -lines 3 -u 0 -a 1 -kb-accept-entry "Return" -mesg "${HELP}" -dmenu -p "Action"
+    )
+    val=$?
+
+    if [[ $val -eq 0 ]]; then
+        case "${selection:0:1}" in
+          "1")
+            $EDITOR $TODOTXT_CFG_FILE;;
+          "2")
+            $EDITOR $CONFIG_FILE;;
+          "3")
+            $EDITOR $FILTER_FILE;;
+          *)
+            exit;;
+        esac
+    fi
+}
+
 help() {
     HELP="${TODOFISH_HEADER} - Charles Rincheval, May 2020
 --
@@ -253,8 +278,8 @@ Todo.txt format: https://github.com/todotxt/todo.txt"
     source $TODOTXT_CFG_FILE
 
     selection=$(
-        echo -e "1. Archive|2. Deduplicate|3. Report|4. Open todo.txt (${TODO_FILE})|5. Open done.txt (${DONE_FILE})" | \
-        runrofi -sep "|" -lines 5 -u 0 -a 1 -kb-accept-entry "Return" -mesg "${HELP}" -dmenu -p "Action"
+        echo -e "1. Archive|2. Deduplicate|3. Report|4. Open todo.txt (${TODO_FILE})|5. Open done.txt (${DONE_FILE})|6. See configuration files" | \
+        runrofi -sep "|" -lines 6 -u 0 -a 1 -kb-accept-entry "Return" -mesg "${HELP}" -dmenu -p "Action"
     )
     val=$?
 
@@ -271,6 +296,8 @@ Todo.txt format: https://github.com/todotxt/todo.txt"
             $EDITOR $TODO_FILE;;
           "5")
             $EDITOR $DONE_FILE;;
+          "6"):
+            config;;
           *)
             exit;;
         esac
