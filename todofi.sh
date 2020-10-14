@@ -165,7 +165,7 @@ option() {
             selection=$(echo -e "Not implemented" | runrofi -sep "|" -kb-accept-entry "Return" -mesg "Item: <span color=\"${COLOR_ITEM}\">${current_line}</span>" -dmenu -p "Action")
             break
         else
-            selection=$(echo -e "1. Mark Done|2. Edit|3. Edit priority|4. Remove priority|5. Delete" | runrofi -lines 5 -sep "|" -u 4 -a 0 -kb-accept-entry "Return" -mesg "Item: <span foreground=\"#0000FF\">${current_line}</span>" -dmenu -p "Action")
+            selection=$(echo -e "1. Mark Done|2. Edit|3. Edit priority|4. Remove priority|5. Delete" | runrofi -lines 5 -sep "|" -u 4 -a 0 -kb-accept-entry "Return" -mesg "Item: <span foreground=\"${COLOR_ITEM}\">${current_line}</span>" -dmenu -p "Action")
             lineno=`getlinenumber "$current_line"`
 
             case "${selection:0:1}" in
