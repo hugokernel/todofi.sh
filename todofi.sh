@@ -21,6 +21,12 @@ COLOR_ITEM="#0000CC"
 COLOR_INFO="#FF0000"
 COLOR_EXAMPLE="#0000CC"
 
+# Don't forget to quote regex char
+MARKUP_PRIORITY='<b>\1<\/b> \2'
+MARKUP_PROJECT='<span fgcolor="blue">\1<\/span>'
+MARKUP_CONTEXT='<span fgcolor="green">\1<\/span>'
+MARKUP_TAG='<span fgcolor="gray">\1<\/span>'
+
 SHORTCUT_NEW="Alt+a"
 SHORTCUT_DONE="Alt+d"
 SHORTCUT_EDIT="Alt+e"
@@ -119,6 +125,37 @@ ${projcon}" -p "> ")
 ere_quote() {
     # Picked from https://stackoverflow.com/a/16951928
     sed 's/[]\.|$(){}?+*^[]/\\&/g' <<< "$*"
+}
+
+highlight() {
+    # Escape <, >
+    line=`echo "$1" | sed 's/</\&lt;/g; s/>/\&gt;/g;'`
+
+    # Highlight
+    WORD_REGEX="[[:alnum:]]+"
+    echo "${line}" | sed -r "
+        s/\(([a-zA-Z]+)\) (.*)/${MARKUP_PRIORITY}/g;
+        s/(\+${WORD_REGEX})/${MARKUP_PROJECT}/g;
+        s/(\@${WORD_REGEX})/${MARKUP_CONTEXT}/g;
+        s/(\#${WORD_REGEX})/${MARKUP_TAG}/g"
+}
+
+unhighlight() {
+    line=`echo "$1" | sed 's/\&lt;/</g; s/\&gt;/>/g;'`
+
+    UNMARKUP_PRIORITY="${MARKUP_PRIORITY/\\1/([a-zA-Z]+)}"
+    UNMARKUP_PRIORITY="${UNMARKUP_PRIORITY/\\2/(.*)}"
+
+    REGEX="([^<]*)"
+    UNMARKUP_PROJECT="${MARKUP_PROJECT/\\1/${REGEX}}"
+    UNMARKUP_CONTEXT="${MARKUP_CONTEXT/\\1/${REGEX}}"
+    UNMARKUP_TAG="${MARKUP_TAG/\\1/${REGEX}}"
+
+    echo "${line}" | sed -r "
+        s/${UNMARKUP_PRIORITY}/(\1) \2/g;
+        s/${UNMARKUP_PROJECT}/\1/g;
+        s/${UNMARKUP_CONTEXT}/\1/g;
+        s/${UNMARKUP_TAG}/\1/g"
 }
 
 getlinenumber() {
