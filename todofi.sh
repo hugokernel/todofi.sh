@@ -17,7 +17,6 @@ LINES_MAX=15
 COLOR_TITLE="#00CC00"
 COLOR_SHORTCUT="#0000CC"
 COLOR_TAG="#00AA00"
-COLOR_ITEM="#0000CC"
 COLOR_INFO="#FF0000"
 COLOR_EXAMPLE="#0000CC"
 
@@ -201,10 +200,10 @@ option() {
     while true
     do
         if [[ ${current_line:0:1} == 'x' ]]; then
-            selection=$(echo -e "Not implemented" | runrofi -sep "|" -kb-accept-entry "Return" -mesg "Item: <span color=\"${COLOR_ITEM}\">${current_line}</span>" -dmenu -p "Action")
+            selection=$(echo -e "Not implemented" | runrofi -sep "|" -kb-accept-entry "Return" -mesg "Item: ${current_line}" -dmenu -p "Action")
             break
         else
-            selection=$(echo -e "1. Mark Done|2. Edit|3. Edit priority|4. Remove priority|5. Delete" | runrofi -lines 5 -sep "|" -u 4 -a 0 -kb-accept-entry "Return" -mesg "Item: <span foreground=\"${COLOR_ITEM}\">${current_line}</span>" -dmenu -p "Action")
+            selection=$(echo -e "1. Mark Done|2. Edit|3. Edit priority|4. Remove priority|5. Delete" | runrofi -lines 5 -sep "|" -u 4 -a 0 -kb-accept-entry "Return" -mesg "Item: ${current_line}" -dmenu -p "Action")
             lineno=`getlinenumber "$current_line"`
 
             case "${selection:0:1}" in
