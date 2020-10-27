@@ -346,6 +346,7 @@ main() {
                                         -kb-custom-7 "${SHORTCUT_HELP}" \
                                         -kb-custom-8 "${SHORTCUT_TERM}" \
                                         -kb-accept-entry "Return" \
+                                        -markup-rows \
                                         -u "${high}" -a "${medium}" -mesg "${HEADER}" -dmenu -p "Filter")
         val=$?
         lineno=`getlinenumber "$selection"`
