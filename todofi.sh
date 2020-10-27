@@ -21,9 +21,9 @@ COLOR_EXAMPLE="#0000CC"
 
 # Don't forget to quote regex char
 MARKUP_PRIORITY='<b>\1<\/b> \2'
-MARKUP_PROJECT='<span fgcolor="blue">\1<\/span>'
-MARKUP_CONTEXT='<span fgcolor="green">\1<\/span>'
-MARKUP_TAG='<span fgcolor="gray">\1<\/span>'
+MARKUP_PROJECT='<span fgcolor="darkblue"><b>\1<\/b><\/span>'
+MARKUP_CONTEXT='<span fgcolor="darkgreen"><b>\1<\/b><\/span>'
+MARKUP_TAG='<span fgcolor="gray"><b>\1<\/b><\/span>'
 
 SHORTCUT_NEW="Alt+a"
 SHORTCUT_DONE="Alt+d"
