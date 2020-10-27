@@ -159,7 +159,8 @@ unhighlight() {
 }
 
 getlinenumber() {
-    line=`ere_quote "$1"`
+    line=`unhighlight "$1"`
+    line=`ere_quote "${line}"`
     echo `runtodo ls | grep -P "\d+ ${line}$" | awk '{print $1}'`
 }
 
@@ -175,6 +176,7 @@ extractcontent() {
 edit() {
     lineno=$1
     current_line=`extractcontent "$2"`
+    current_line=`unhighlight "${current_line}"`
     projcon=`getprojconheader`
     todo=$(runrofi -lines 0 -dmenu -mesg "Edit todo
 ${projcon}" -p "> " -filter "$current_line")
@@ -261,7 +263,8 @@ listprojectandcontext() {
 
 formatline() {
     while read LINE; do
-        echo "${LINE}" | sed -r 's/[0-9]*\ (.*)/\1/g'
+        LINE=`echo "${LINE}" | sed -r 's/[0-9]*\ (.*)/\1/g'`
+        highlight "${LINE}"
     done
 }
 
