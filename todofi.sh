@@ -16,10 +16,14 @@ LINES_MAX=15
 
 COLOR_TITLE="#00CC00"
 COLOR_SHORTCUT="#0000CC"
-COLOR_TAG="#00AA00"
-COLOR_ITEM="#0000CC"
 COLOR_INFO="#FF0000"
 COLOR_EXAMPLE="#0000CC"
+
+# Don't forget to quote regex char
+MARKUP_PRIORITY='<b>\1<\/b> \2'
+MARKUP_PROJECT='<span fgcolor="darkblue"><b>\1<\/b><\/span>'
+MARKUP_CONTEXT='<span fgcolor="darkgreen"><b>\1<\/b><\/span>'
+MARKUP_TAG='<span fgcolor="gray"><b>\1<\/b><\/span>'
 
 SHORTCUT_NEW="Alt+a"
 SHORTCUT_DONE="Alt+d"
@@ -102,13 +106,6 @@ confirm() {
     fi
 }
 
-getprojconheader() {
-    listproj=`runtodo listproj | tr '\n' ' '`
-    listcon=`runtodo listcon | tr '\n' ' '`
-    echo "Projects: <span color=\"${COLOR_TAG}\">${listproj}</span>
-Context: <span color=\"${COLOR_TAG}\">${listcon}</span>"
-}
-
 add() {
     projcon=`getprojconheader`
     new_todo=$(echo -e "< Cancel" | runrofi -lines 1 -dmenu -mesg "New todo
@@ -121,8 +118,51 @@ ere_quote() {
     sed 's/[]\.|$(){}?+*^[]/\\&/g' <<< "$*"
 }
 
+highlight() {
+    # Escape <, >
+    line=`echo "$1" | sed 's/</\&lt;/g; s/>/\&gt;/g;'`
+
+    # Highlight
+    WORD_REGEX="[[:alnum:]]+"
+    echo "${line}" | sed -r "
+        s/\(([a-zA-Z]+)\) (.*)/${MARKUP_PRIORITY}/g;
+        s/(\+${WORD_REGEX})/${MARKUP_PROJECT}/g;
+        s/(\@${WORD_REGEX})/${MARKUP_CONTEXT}/g;
+        s/(\#${WORD_REGEX})/${MARKUP_TAG}/g"
+}
+
+unhighlight() {
+    line=`echo "$1" | sed 's/\&lt;/</g; s/\&gt;/>/g;'`
+
+    UNMARKUP_PRIORITY="${MARKUP_PRIORITY/\\1/([a-zA-Z]+)}"
+    UNMARKUP_PRIORITY="${UNMARKUP_PRIORITY/\\2/(.*)}"
+
+    REGEX="([^<]*)"
+    UNMARKUP_PROJECT="${MARKUP_PROJECT/\\1/${REGEX}}"
+    UNMARKUP_CONTEXT="${MARKUP_CONTEXT/\\1/${REGEX}}"
+    UNMARKUP_TAG="${MARKUP_TAG/\\1/${REGEX}}"
+
+    echo "${line}" | sed -r "
+        s/${UNMARKUP_PRIORITY}/(\1) \2/g;
+        s/${UNMARKUP_PROJECT}/\1/g;
+        s/${UNMARKUP_CONTEXT}/\1/g;
+        s/${UNMARKUP_TAG}/\1/g"
+}
+
+getprojconheader() {
+    listproj=`runtodo listproj | tr '\n' ' '`
+    listcon=`runtodo listcon | tr '\n' ' '`
+
+    listproj=`highlight "${listproj}"`
+    listcon=`highlight "${listcon}"`
+
+    echo "Projects: ${listproj}
+Context: ${listcon}"
+}
+
 getlinenumber() {
-    line=`ere_quote "$1"`
+    line=`unhighlight "$1"`
+    line=`ere_quote "${line}"`
     echo `runtodo ls | grep -P "\d+ ${line}$" | awk '{print $1}'`
 }
 
@@ -138,6 +178,7 @@ extractcontent() {
 edit() {
     lineno=$1
     current_line=`extractcontent "$2"`
+    current_line=`unhighlight "${current_line}"`
     projcon=`getprojconheader`
     todo=$(runrofi -lines 0 -dmenu -mesg "Edit todo
 ${projcon}" -p "> " -filter "$current_line")
@@ -162,10 +203,10 @@ option() {
     while true
     do
         if [[ ${current_line:0:1} == 'x' ]]; then
-            selection=$(echo -e "Not implemented" | runrofi -sep "|" -kb-accept-entry "Return" -mesg "Item: <span color=\"${COLOR_ITEM}\">${current_line}</span>" -dmenu -p "Action")
+            selection=$(echo -e "Not implemented" | runrofi -sep "|" -kb-accept-entry "Return" -mesg "Item: ${current_line}" -dmenu -p "Action")
             break
         else
-            selection=$(echo -e "1. Mark Done|2. Edit|3. Edit priority|4. Remove priority|5. Delete" | runrofi -lines 5 -sep "|" -u 4 -a 0 -kb-accept-entry "Return" -mesg "Item: <span foreground=\"${COLOR_ITEM}\">${current_line}</span>" -dmenu -p "Action")
+            selection=$(echo -e "1. Mark Done|2. Edit|3. Edit priority|4. Remove priority|5. Delete" | runrofi -lines 5 -sep "|" -u 4 -a 0 -kb-accept-entry "Return" -mesg "Item: ${current_line}" -dmenu -p "Action")
             lineno=`getlinenumber "$current_line"`
 
             case "${selection:0:1}" in
@@ -224,7 +265,8 @@ listprojectandcontext() {
 
 formatline() {
     while read LINE; do
-        echo "${LINE}" | sed -r 's/[0-9]*\ (.*)/\1/g'
+        LINE=`echo "${LINE}" | sed -r 's/[0-9]*\ (.*)/\1/g'`
+        highlight "${LINE}"
     done
 }
 
@@ -346,6 +388,7 @@ main() {
                                         -kb-custom-7 "${SHORTCUT_HELP}" \
                                         -kb-custom-8 "${SHORTCUT_TERM}" \
                                         -kb-accept-entry "Return" \
+                                        -markup-rows \
                                         -u "${high}" -a "${medium}" -mesg "${HEADER}" -dmenu -p "Filter")
         val=$?
         lineno=`getlinenumber "$selection"`
