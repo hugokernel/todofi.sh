@@ -16,7 +16,6 @@ LINES_MAX=15
 
 COLOR_TITLE="#00CC00"
 COLOR_SHORTCUT="#0000CC"
-COLOR_TAG="#00AA00"
 COLOR_INFO="#FF0000"
 COLOR_EXAMPLE="#0000CC"
 
@@ -107,13 +106,6 @@ confirm() {
     fi
 }
 
-getprojconheader() {
-    listproj=`runtodo listproj | tr '\n' ' '`
-    listcon=`runtodo listcon | tr '\n' ' '`
-    echo "Projects: <span color=\"${COLOR_TAG}\">${listproj}</span>
-Context: <span color=\"${COLOR_TAG}\">${listcon}</span>"
-}
-
 add() {
     projcon=`getprojconheader`
     new_todo=$(echo -e "< Cancel" | runrofi -lines 1 -dmenu -mesg "New todo
@@ -155,6 +147,17 @@ unhighlight() {
         s/${UNMARKUP_PROJECT}/\1/g;
         s/${UNMARKUP_CONTEXT}/\1/g;
         s/${UNMARKUP_TAG}/\1/g"
+}
+
+getprojconheader() {
+    listproj=`runtodo listproj | tr '\n' ' '`
+    listcon=`runtodo listcon | tr '\n' ' '`
+
+    listproj=`highlight "${listproj}"`
+    listcon=`highlight "${listcon}"`
+
+    echo "Projects: ${listproj}
+Context: ${listcon}"
 }
 
 getlinenumber() {
