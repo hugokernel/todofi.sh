@@ -15,6 +15,7 @@ Handle your [todo-txt](http://todotxt.org/) tasks directly from [Rofi](https://g
 * Filter from context / project
 * Run command like archive, deduplicate or report
 * Can apply filter from argument
+* Context / Project / Tag highlighting (via Pango markup)
 
 ## Dependencies
 
