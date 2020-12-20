@@ -56,7 +56,7 @@ runrofi () {
 }
 
 runtodo_verbose() {
-    todo-txt -p -d "$TODOTXT_CFG_FILE" "$@"
+    $TODO_BIN -p -d "$TODOTXT_CFG_FILE" "$@"
 }
 
 runtodo() {
