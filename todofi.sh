@@ -373,12 +373,20 @@ main() {
             count=`echo "$list" | wc -l`
         fi
 
+        count_string="<span color=\"${COLOR_INFO}\">${count}</span>"
+        if [[ "$escaped_filter" ]]; then
+            countall=`runtodo list | wc -l`
+            count_string="${count_string} displayed / <span color=\"${COLOR_INFO}\">${countall}</span> item(s)"
+        else
+            count_string="${count_string} item(s)"
+        fi
+
         current_filter=""
         if [[ $FILTER ]]; then
             current_filter="- Current filter is <span color=\"${COLOR_INFO}\">${FILTER}</span>"
         fi
 
-        HEADER="${TODOFISH_HEADER} - <span color='${COLOR_SHORTCUT}'>${SHORTCUT_HELP}</span> for help - <span color=\"${COLOR_INFO}\">${count}</span> displayed item(s) $current_filter"
+        HEADER="${TODOFISH_HEADER} - <span color='${COLOR_SHORTCUT}'>${SHORTCUT_HELP}</span> for help - $count_string $current_filter"
 
         selection=$( \
             echo -e "${list}" | \
