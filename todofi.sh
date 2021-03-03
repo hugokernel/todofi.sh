@@ -24,6 +24,7 @@ MARKUP_PRIORITY='<b>\1<\/b> \2'
 MARKUP_PROJECT='<span fgcolor="darkblue"><b>\1<\/b><\/span>'
 MARKUP_CONTEXT='<span fgcolor="darkgreen"><b>\1<\/b><\/span>'
 MARKUP_TAG='<span fgcolor="gray"><b>\1<\/b><\/span>'
+MARKUP_DUE='<span fgcolor="red"><b>\1<\/b><\/span>'
 
 SHORTCUT_NEW="Alt+a"
 SHORTCUT_DONE="Alt+d"
@@ -128,7 +129,8 @@ highlight() {
         s/\(([a-zA-Z]+)\) (.*)/${MARKUP_PRIORITY}/g;
         s/(\+${WORD_REGEX})/${MARKUP_PROJECT}/g;
         s/(\@${WORD_REGEX})/${MARKUP_CONTEXT}/g;
-        s/(\#${WORD_REGEX})/${MARKUP_TAG}/g"
+        s/(\#${WORD_REGEX})/${MARKUP_TAG}/g;
+        s/(due\:[0-9\-]+)/${MARKUP_DUE}/g"
 }
 
 unhighlight() {
@@ -141,12 +143,14 @@ unhighlight() {
     UNMARKUP_PROJECT="${MARKUP_PROJECT/\\1/${REGEX}}"
     UNMARKUP_CONTEXT="${MARKUP_CONTEXT/\\1/${REGEX}}"
     UNMARKUP_TAG="${MARKUP_TAG/\\1/${REGEX}}"
+    UNMARKUP_DUE="${MARKUP_DUE/\\1/${REGEX}}"
 
     echo "${line}" | sed -r "
         s/${UNMARKUP_PRIORITY}/(\1) \2/g;
         s/${UNMARKUP_PROJECT}/\1/g;
         s/${UNMARKUP_CONTEXT}/\1/g;
-        s/${UNMARKUP_TAG}/\1/g"
+        s/${UNMARKUP_TAG}/\1/g;
+        s/${UNMARKUP_DUE}/\1/g"
 }
 
 getprojconheader() {
