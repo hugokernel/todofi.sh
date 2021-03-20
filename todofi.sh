@@ -111,7 +111,10 @@ add() {
     projcon=`getprojconheader`
     new_todo=$(echo -e "< Cancel" | runrofi -lines 1 -dmenu -mesg "New todo
 ${projcon}" -p "> ")
-    runtodo add $new_todo
+
+    if [[  "$new_todo" != ""  ]]; then
+      runtodo add $new_todo
+    fi
 }
 
 ere_quote() {
