@@ -169,6 +169,7 @@ Context: ${listcon}"
 
 getlinenumber() {
     line=`unhighlight "$1"`
+    line=`unescapeline "${line}"`
     line=`ere_quote "${line}"`
     echo `runtodo ls | grep -P "\d+ ${line}$" | awk '{print $1}'`
 }
@@ -184,8 +185,10 @@ extractcontent() {
 
 edit() {
     lineno=$1
-    current_line=`extractcontent "$2"`
+    current_line="$2"
     current_line=`unhighlight "${current_line}"`
+    current_line=`extractcontent "${current_line}"`
+    current_line=`unescapeline "${current_line}"`
     projcon=`getprojconheader`
     todo=$(runrofi -lines 0 -dmenu -mesg "Edit todo
 ${projcon}" -p "> " -filter "$current_line")
@@ -272,9 +275,13 @@ listprojectandcontext() {
 
 formatline() {
     while read LINE; do
-        LINE=`echo "${LINE}" | sed -r 's/[0-9]*\ (.*)/\1/g'`
+        LINE=`echo "${LINE}" | sed -r 's/[0-9]*\ (.*)/\1/g' | sed 's/\&/\&amp;/g'`
         highlight "${LINE}"
     done
+}
+
+unescapeline() {
+    echo "$1" | sed 's/\&amp\;/\&/g'
 }
 
 linescount() {
@@ -418,7 +425,7 @@ main() {
         elif [[ $val -eq 10 ]]; then
             add
         elif [[ $val -eq 12 ]]; then
-            edit "$selection"
+            edit $lineno "$selection"
         elif [[ $val -eq 11 ]]; then
             confirm "mark as done" "$selection" && runtodo do "$lineno"
         elif [[ $val -eq 17 ]]; then
