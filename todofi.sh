@@ -195,10 +195,6 @@ ${projcon}" -p "> " -filter "$current_line")
     fi
 }
 
-extractpriority() {
-    echo $1 | sed 's/\([^ ]*\).*/\1/'
-}
-
 editpriority() {
     lineno=$1
     current_line="$2"
