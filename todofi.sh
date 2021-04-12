@@ -123,8 +123,8 @@ ere_quote() {
 }
 
 highlight() {
-    # Escape <, >
-    line=`echo "$1" | sed 's/</\&lt;/g; s/>/\&gt;/g;'`
+    # Escape &, <, >
+    line=`echo "$1" | sed 's/\&/\&amp;/g' | sed 's/</\&lt;/g; s/>/\&gt;/g;'`
 
     # Highlight
     WORD_REGEX="[[:alnum:]]+"
@@ -137,7 +137,8 @@ highlight() {
 }
 
 unhighlight() {
-    line=`echo "$1" | sed 's/\&lt;/</g; s/\&gt;/>/g;'`
+    # Unescape <, >, &
+    line=`echo "$1" | sed 's/\&lt;/</g; s/\&gt;/>/g;' | sed 's/\&amp;/\&/g'`
 
     UNMARKUP_PRIORITY="${MARKUP_PRIORITY/\\1/([a-zA-Z]+)}"
     UNMARKUP_PRIORITY="${UNMARKUP_PRIORITY/\\2/(.*)}"
