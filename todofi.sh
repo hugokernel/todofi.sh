@@ -369,6 +369,7 @@ main() {
     do
         escaped_filter=`echo "$FILTER" | sed -e 's=|=\\\|=g'`
         list=`list $escaped_filter`
+        list=${list//\\/\\\\}
         high=`echo "$list" | filter_by_priority A`
         medium=`echo "$list" | filter_by_priority B`
 
@@ -393,7 +394,7 @@ main() {
         HEADER="${TODOFISH_HEADER} - <span color='${COLOR_SHORTCUT}'>${SHORTCUT_HELP}</span> for help - $count_string $current_filter"
 
         selection=$( \
-            echo -e "${list}" | \
+            echo -E "${list}" | \
             formatline | \
             runrofi `linescount $count` -kb-custom-1 "${SHORTCUT_NEW}" \
                                         -kb-custom-2 "${SHORTCUT_DONE}" \
