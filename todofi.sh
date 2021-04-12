@@ -418,7 +418,7 @@ main() {
         elif [[ $val -eq 10 ]]; then
             add
         elif [[ $val -eq 12 ]]; then
-            edit "$selection"
+            edit $lineno "$selection"
         elif [[ $val -eq 11 ]]; then
             confirm "mark as done" "$selection" && runtodo do "$lineno"
         elif [[ $val -eq 17 ]]; then
