@@ -185,8 +185,8 @@ extractcontent() {
 
 edit() {
     lineno=$1
-    current_line=`extractcontent "$2"`
-    current_line=`unhighlight "${current_line}"`
+    current_line=`unhighlight "$2"`
+    current_line=`extractcontent "${current_line}"`
     projcon=`getprojconheader`
     todo=$(runrofi -lines 0 -dmenu -mesg "Edit todo
 ${projcon}" -p "> " -filter "$current_line")
