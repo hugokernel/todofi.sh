@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+VERSION="1.0.0"
+
 TODOTXT_CFG_FILE="${HOME}/.config/todo/config"
 
 CONFIG_FILE="${HOME}/.config/todofish.conf"
@@ -311,7 +313,7 @@ config() {
 }
 
 help() {
-    HELP="${TODOFISH_HEADER} - Charles Rincheval, May 2020
+    HELP="${TODOFISH_HEADER} - Version ${VERSION} - Charles Rincheval, April 2021
 --
 * Add todo <span color='${COLOR_SHORTCUT}'>${SHORTCUT_NEW}</span>
 * Mark as done <span color='${COLOR_SHORTCUT}'>${SHORTCUT_DONE}</span>
