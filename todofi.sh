@@ -112,7 +112,7 @@ add() {
     new_todo=$(echo -e "< Cancel" | runrofi -lines 1 -dmenu -mesg "New todo
 ${projcon}" -p "> ")
 
-    if [[  "$new_todo" != ""  ]]; then
+    if [[ "$new_todo" != "" ]]; then
       runtodo add $new_todo
     fi
 }
