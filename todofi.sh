@@ -20,6 +20,7 @@ COLOR_TITLE="#00CC00"
 COLOR_SHORTCUT="#0000CC"
 COLOR_INFO="#FF0000"
 COLOR_EXAMPLE="#0000CC"
+COLOR_ITEM="#0000FF"
 
 # Don't forget to quote regex char
 MARKUP_PRIORITY='<b>\1<\/b> \2'
@@ -96,7 +97,7 @@ confirm() {
 
     # Todo: remove duplicate code...
     if [[ $context ]]; then
-        mesg="Item: <span foreground=\"#0000FF\">${context}</span>"
+        mesg="Item: <span foreground=\"${COLOR_ITEM}\">${context}</span>"
         response=$(echo -e "Yes\nNo" | $ROFI_BIN -lines 2 -u 0 -a 1 -dmenu -mesg "$mesg" -i -p "$message")
     else
         response=$(echo -e "Yes\nNo" | $ROFI_BIN -lines 2 -u 0 -a 1 -dmenu -i -p "$message")
@@ -200,7 +201,7 @@ ${projcon}" -p "> " -filter "$current_line")
 editpriority() {
     lineno=$1
     current_line="$2"
-    priority=$(for letter in {A..Z}; do echo "$letter"; done| runrofi -dmenu -mesg "Item: <span foreground=\"#0000FF\">${current_line}</span>" -p "> ")
+    priority=$(for letter in {A..Z}; do echo "$letter"; done| runrofi -dmenu -mesg "Item: <span foreground=\"${COLOR_ITEM}\">${current_line}</span>" -p "> ")
     runtodo pri "$lineno" "$priority"
 }
 
