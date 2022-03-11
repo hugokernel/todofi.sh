@@ -286,8 +286,6 @@ linescount() {
     fi
 }
 
-TODOFISH_HEADER="<span color=\"${COLOR_TITLE}\">Todofi.sh</span>"
-
 config() {
     HELP="${TODOFISH_HEADER} - Configuration files"
 
@@ -485,6 +483,8 @@ while getopts "h?af:F:c:d:" opt; do
         TODOTXT_CFG_FILE=$OPTARG;;
     esac
 done
+
+TODOFISH_HEADER="<span color=\"${COLOR_TITLE}\">Todofi.sh</span>"
 
 if [[ $ADD_MODE ]]; then
     add
