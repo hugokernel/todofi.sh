@@ -132,10 +132,10 @@ highlight() {
     # Highlight
     WORD_REGEX="[[:alnum:]]+"
     echo "${line}" | sed -r "
+        s/(\#${WORD_REGEX})/${MARKUP_TAG}/g;
         s/^\(([a-zA-Z]+)\) (.*)/${MARKUP_PRIORITY}/g;
         s/(\+${WORD_REGEX})/${MARKUP_PROJECT}/g;
         s/(\@${WORD_REGEX})/${MARKUP_CONTEXT}/g;
-        s/(\#${WORD_REGEX})/${MARKUP_TAG}/g;
         s/(due\:[0-9\-]+)/${MARKUP_DUE}/g"
 }
 
