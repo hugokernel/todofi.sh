@@ -484,7 +484,9 @@ while getopts "h?af:F:c:d:" opt; do
     esac
 done
 
-TODOFISH_HEADER="<span color=\"${COLOR_TITLE}\">Todofi.sh</span>"
+if [ ! -v TODOFISH_HEADER ]; then
+    TODOFISH_HEADER="<span color=\"${COLOR_TITLE}\">Todofi.sh</span>"
+fi
 
 if [[ $ADD_MODE ]]; then
     add
